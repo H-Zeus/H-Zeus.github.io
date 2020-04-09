@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PHP on My Site</title>
+    <link>https://h-zeus.github.io/tags/php/</link>
+    <description>Recent content in PHP on My Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 08 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://h-zeus.github.io/tags/php/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>PHP获取二维数组中某一列的值集合</title>
+      <link>https://h-zeus.github.io/posts/php%E8%8E%B7%E5%8F%96%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%90%E4%B8%80%E5%88%97%E7%9A%84%E5%80%BC%E9%9B%86%E5%90%88/</link>
+      <pubDate>Wed, 08 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://h-zeus.github.io/posts/php%E8%8E%B7%E5%8F%96%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%90%E4%B8%80%E5%88%97%E7%9A%84%E5%80%BC%E9%9B%86%E5%90%88/</guid>
+      <description>PHP还是比较常用的，于是我研究了一下PHP二维数组。在处理php数组的时候，有一种需求特别的频繁，如下二维数组：
+$arr = array( 1=&amp;gt;array( &amp;#39;id&amp;#39; =&amp;gt; 5, &amp;#39;name&amp;#39; =&amp;gt; &amp;#39;张三&amp;#39; ), 2=&amp;gt;array( &amp;#39;id&amp;#39; =&amp;gt; 6, &amp;#39;name&amp;#39; =&amp;gt; &amp;#39;李四&amp;#39; ) ); 目的就是要取到key为name的集合，得到这个结果：
+$arr2 = array( 0=&amp;gt;&amp;#39;张三&amp;#39;, 1=&amp;gt;&amp;#39;李四&amp;#39; ); 这里有几种方法： 1：最简单的，foreach遍历数组：
+foreach ($arr as $key =&amp;gt; $value) { $arr2[] = $value[&amp;#39;name&amp;#39;]; } 2：代码量稍微少一点的代码，使用了 array_map 这个php方法：
+$arr2 = array_map(&amp;#39;array_shift&amp;#39;,$arr); 意为把$arr数组的每一项值的开头的值移出，并返回被移出的每一项值中被移出的值，注意此时新数组$arr2的键仍是原数组$arr的键
+2.1：在方法2的基础上，可以稍微开一下脑洞，如果需要获取的是二维数组的每一项的开头列或结尾列，也可以这样做：
+$arr2 = array_map(&amp;#39;reset&amp;#39;,$arr); $arr2 = array_map(&amp;#39;end&amp;#39;,$arr); 3：还可以使用 array_reduce 方法，不过代码略多，不过这个方法的想象空间（针对别的数组取值操作）还是蛮大的：
+$arr2 = array_reduce($arr, create_function(&amp;#39;$result, $v&amp;#39;, &amp;#39;$result[] = $v[&amp;#34;name&amp;#34;];return $result;&amp;#39;)); array_reduce方法用回调函数迭代地将对数组的值进行操作，而create_function用于一个匿名方法做回调用，这个匿名方法的参数$result为上一次迭代产生的值，$v是当前的值，内部实现既为获取到数组$arr每一项的”name”的值并push到新$result数组;
+4：最后这个终极方法实在是太爽了，一个方法就搞定，而且非常灵活：
+$arr2 = array_column($arr, &amp;#39;name&amp;#39;); 第二个参数为想要获取的那一列的键名，是不是很方便呢，不过这个方法有个限制，就是php版本必须 &amp;gt;= 5.</description>
+    </item>
+    
+  </channel>
+</rss>
