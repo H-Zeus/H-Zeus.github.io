@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>生活小记 on My Site</title>
+    <link>http://example.com/categories/%E7%94%9F%E6%B4%BB%E5%B0%8F%E8%AE%B0/</link>
+    <description>Recent content in 生活小记 on My Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 08 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://example.com/categories/%E7%94%9F%E6%B4%BB%E5%B0%8F%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Mac/Windows Soft</title>
+      <link>http://example.com/posts/%E8%BD%AF%E4%BB%B6%E6%8E%A8%E8%8D%90/</link>
+      <pubDate>Wed, 08 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.com/posts/%E8%BD%AF%E4%BB%B6%E6%8E%A8%E8%8D%90/</guid>
+      <description>其他  Enpass 密码管理工具 Joplin 笔记软件（搭配坚果云可实现同步功能） 网易云音乐 音乐 WPS Office 办公套件 自动切换输入法 如名 pap.er 壁纸软件 超级右键 还原 Windows 右键菜单 Alfred 4 必备软件 自动化操作 eZip 解压缩软件 iCHM .CHM 查看器 BetterTouchTool 自动化操作 Google Chrome 谷歌浏览器（选择性安装）  编程  Postman 接口测试工具 Navicat Premium 多版本数据库 Hyper 自定义终端 Sublime Text 编辑器（代替文本编辑器） PhpStorm PHP 编辑器 PyCharm Python 编辑器 Xcode 编译编辑器 网易有道词典 翻译软件 VirtualBox 虚拟机（建议安装 Vagrant配合 .box使用） Typora MarkDown编辑器 Charles 抓包工具 MAMP 开发环境集成 SwitchHosts 管理 Hosts diffmerge 文件差异对比  Windows  Camtasia 9 视频剪辑、录屏软件 Fiddler 抓包工具 Adobe Audition 音频编辑软件 冰点文库 各大文库下载 FSCapture 截屏软件  </description>
+    </item>
+    
+  </channel>
+</rss>
