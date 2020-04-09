@@ -63,4 +63,4 @@ Disallow: /
 User-agent: ZoominfoBot
 Disallow: /
 
-Sitemap: http://example.com/sitemap.xml
+Sitemap: https://h-zeus.github.io/sitemap.xml

@@ -1,7 +1,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>My Site on My Site</title>
-    <link>http://example.com/</link>
+    <link>https://h-zeus.github.io/</link>
     <description>Recent content in My Site on My Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,10 +10,10 @@
     
     <item>
       <title>About Site</title>
-      <link>http://example.com/about/</link>
+      <link>https://h-zeus.github.io/about/</link>
       <pubDate>Wed, 08 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.com/about/</guid>
+      <guid>https://h-zeus.github.io/about/</guid>
       <description>&lt;p&gt;This is a personal website for learning.&lt;/p&gt;
 &lt;p&gt;QQ：865291170&lt;/p&gt;
 </description>
@@ -21,10 +21,10 @@
     
     <item>
       <title>Posts</title>
-      <link>http://example.com/posts/</link>
+      <link>https://h-zeus.github.io/posts/</link>
       <pubDate>Wed, 08 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.com/posts/</guid>
+      <guid>https://h-zeus.github.io/posts/</guid>
       <description></description>
     </item>
     
