@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Zeus">
+  
+  
+  
+  <link rel="prev" href="https://h-zeus.github.io/posts/dos-%E6%94%BB%E5%87%BB%E8%84%9A%E6%9C%AC/" />
+  
+  <link rel="canonical" href="https://h-zeus.github.io/posts/shell-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Shell 基本语法 | My Site
+       
+  </title>
+  <meta name="title" content="Shell 基本语法 | My Site">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/h-zeus.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "Shell 基本语法",
+    "headline" : "Shell 基本语法",
+    "description" : "解析器标识 #!\/bin\/bash\n数值计算 var=$((运算内容))\n判断式 test 或 []\n测试标志 关于文件的文件类型判断 ­e 该文件是否存在 ­f 该文件是否存在且为文件 ­d 该文件是否存在且为目录 ­b 该文件是否存在且为一个block device设备 ­c 该文件是否存在且为一个character device设备 ­S 该文件是否存在且为一个Socket文件 ­p 该文件是否存在且为一个FIFO(pipe)文件 ­L 该文件是否存在且为一个连接文件 关于文件的权限检测 root对一些文件权限无作用 ­r 检测该文件是否存在且对当前用户具有可读权限 ­w 检测该文件是否存在且对当前用户具有可写权限 ­x 检测该文件是否存在且对当前用户具有可执行权限 ­u 检测该文件是否存在且对当前用户具有SUID权限 ­g 检测该文件是否存在且对当前用户具有SGID权限 ­k 检测该文件是否存在且对当前用户具有Sticky bit权限 ­s 检测该文件是否存在且为“非空白文件” 两个文件的比较 如 test file1 ­nt file2 ­nt newer than 判断文件1是否比文件2新 ­ot older than 判断文件1是否比文件2旧 判断文件1与文件2是否为同一文件，可用在判断hard link的判定上，主要判定两个文件 -ef 判断文件1与文件2是否为同一文件，可用在判断hard link的判定上，主要判定两个文件是否指向同一个inode 关于两个整数之间的判定 test n1 ­eq n2 ­eq 两数值相等 ­ne 两数值不相等 ­gt n1 大于 n2 ­lt n1 小于 n2 ­ge n1大于等于n2 ­le n1小于等于n2 判定字符串的数据 test ­z string 判定字符串是否为0，若string为空字符串，则为true test ­n string 判断字符串是否非0，若string为空字符串，返回false，­n可以省略 test str1=str2 判断str1是否等于str2，相等回传true test str1!",
+    "inLanguage" : "en-us",
+    "author" : "Zeus",
+    "creator" : "Zeus",
+    "publisher": "Zeus",
+    "accountablePerson" : "Zeus",
+    "copyrightHolder" : "Zeus",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-04-13 00:00:00 \x2b0000 UTC",
+    "dateModified" : "2020-04-13 00:00:00 \x2b0000 UTC",
+    "url" : "https:\/\/h-zeus.github.io\/posts\/shell-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95\/",
+    "wordCount" : "243",
+    "keywords" : [  "My Site"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://h-zeus.github.io/">My Site</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://h-zeus.github.io/">My Site</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Shell 基本语法</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://h-zeus.github.io/" rel="author">Zeus</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-04-13 itemprop="datePublished">April 13, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://h-zeus.github.io/categories/shell/"> Shell </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h3 id="解析器标识">解析器标识</h3>
+<p><code>#!/bin/bash</code></p>
+<h3 id="数值计算">数值计算</h3>
+<p><code>var=$((运算内容))</code></p>
+<h3 id="判断式">判断式</h3>
+<p><code>test</code> 或 <code>[]</code></p>
+<h3 id="测试标志">测试标志</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">关于文件的文件类型判断
+­e 该文件是否存在
+­f 该文件是否存在且为文件
+­d 该文件是否存在且为目录
+­b 该文件是否存在且为一个block device设备
+­c 该文件是否存在且为一个character device设备
+­S 该文件是否存在且为一个Socket文件
+­p 该文件是否存在且为一个FIFO(pipe)文件
+­L 该文件是否存在且为一个连接文件
+
+关于文件的权限检测 root对一些文件权限无作用
+­r 检测该文件是否存在且对当前用户具有可读权限
+­w 检测该文件是否存在且对当前用户具有可写权限
+­x 检测该文件是否存在且对当前用户具有可执行权限
+­u 检测该文件是否存在且对当前用户具有SUID权限
+­g 检测该文件是否存在且对当前用户具有SGID权限
+­k 检测该文件是否存在且对当前用户具有Sticky bit权限
+­s 检测该文件是否存在且为“非空白文件”
+
+两个文件的比较 如 test file1 ­nt file2
+­nt newer than 判断文件1是否比文件2新
+­ot older than 判断文件1是否比文件2旧 判断文件1与文件2是否为同一文件，可用在判断hard link的判定上，主要判定两个文件
+-ef 判断文件1与文件2是否为同一文件，可用在判断hard link的判定上，主要判定两个文件是否指向同一个inode
+
+关于两个整数之间的判定 test n1 ­eq n2
+­eq 两数值相等
+­ne 两数值不相等
+­gt n1 大于 n2
+­lt n1 小于 n2
+­ge n1大于等于n2
+­le n1小于等于n2
+
+判定字符串的数据
+test ­z string 判定字符串是否为0，若string为空字符串，则为true
+test ­n string 判断字符串是否非0，若string为空字符串，返回false，­n可以省略
+test str1=str2 判断str1是否等于str2，相等回传true
+test str1!=str2 判断str1是否不等于str2，若相等则回传false
+
+多重条件判定，如 test ­r filename ­a ­x filename
+­a 两个条件同时成立
+­o 任何一个条件成立
+! 反向状态，如 test ! ­x file ， 当file不具有x时， 返回true
+</code></pre></div><h2 id="-使用时需要注意"><code>[]</code> 使用时需要注意</h2>
+<ol>
+<li>在中括号内的每个组件都需要有空格隔开</li>
+<li>在中括号内的变量，最好用双引号括号起来</li>
+<li>在中括号内的常量，最好都用单或双引号括号起来</li>
+</ol>
+<h3 id="shell-默认变量">Shell 默认变量</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">$# 给脚本传递的参数个数
+$0 脚本本身的名字
+$1 第一个参数
+$@ 给脚本传递的所有参数列表，每个变量时独立，用双引号括起来
+$* 以一个单字符串显示所有向脚本传递的参数。代表&#34;$1c$2c$3c$4&#34;, c表示分隔 符，默认为空格
+$$ 是脚本运行的当前进程ID号
+$? 显示最后命令的退出状态，0表示没有错误，其他表示有错误
+$- shell 的选项参数
+</code></pre></div><h3 id="if-条件">if 条件</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> 条件表达式1 <span style="color:#f92672">]</span> ; <span style="color:#66d9ef">then</span>
+  执行体
+<span style="color:#66d9ef">elif</span> <span style="color:#f92672">[</span> 条件表达式1 <span style="color:#f92672">]</span> ; <span style="color:#66d9ef">then</span>
+  执行体
+<span style="color:#66d9ef">else</span>
+  执行体
+<span style="color:#66d9ef">fi</span>
+</code></pre></div><h3 id="case-条件">case 条件</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">case</span> $变量名称 in
+    <span style="color:#e6db74">&#34;第一个变量&#34;</span>）
+        程序段
+        ;;
+    <span style="color:#e6db74">&#34;第二个变量&#34;</span><span style="color:#f92672">)</span>
+        程序段
+        ;; 
+    *<span style="color:#f92672">)</span>
+        程序段
+        ;;
+<span style="color:#66d9ef">esac</span>
+</code></pre></div><h3 id="function-函数">function 函数</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">function</span> fname<span style="color:#f92672">(){</span>
+  程序段
+<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="while-do-done">while do done</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> condition <span style="color:#f92672">]</span>
+<span style="color:#66d9ef">do</span>
+    程序段
+<span style="color:#66d9ef">done</span>
+</code></pre></div><h3 id="until-do-done">until do done</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">until</span> <span style="color:#f92672">[</span> condition <span style="color:#f92672">]</span>
+<span style="color:#66d9ef">do</span>
+    程序段
+<span style="color:#66d9ef">done</span>
+</code></pre></div><h3 id="for-do-done">for do done</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">for</span> var in con1 con2 con3
+<span style="color:#66d9ef">do</span>
+    程序段
+<span style="color:#66d9ef">done</span>
+
+
+<span style="color:#66d9ef">for</span> <span style="color:#66d9ef">for</span> <span style="color:#f92672">((</span> 初始值; 限制值; 执行步长 <span style="color:#f92672">))</span>
+<span style="color:#66d9ef">do</span>
+    程序段
+<span style="color:#66d9ef">done</span>
+</code></pre></div><h3 id="shell-script-追踪与调试">Shell script 追踪与调试</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sh <span style="color:#f92672">[</span>‐nvx<span style="color:#f92672">]</span> scripts.sh
+‐n : 不执行script，仅查询语法的问题
+‐v : 在执行script前，先将script的内容输出到屏幕上
+‐x : 将使用到的script内容输出到屏幕上，执行过程展示出来
+</code></pre></div>
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Zeus </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://h-zeus.github.io/posts/shell-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/>https://h-zeus.github.io/posts/shell-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://h-zeus.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://h-zeus.github.io/posts/dos-%E6%94%BB%E5%87%BB%E8%84%9A%E6%9C%AC/" class="prev" rel="prev" title="Dos 攻击脚本"><i class="iconfont icon-left"></i>&nbsp;Dos 攻击脚本</a>
+         
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2018 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://h-zeus.github.io/">Zeus</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>
