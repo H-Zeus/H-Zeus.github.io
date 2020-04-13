@@ -6,10 +6,19 @@
     <description>Recent content in Categories on My Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 08 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 13 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://h-zeus.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Shell</title>
+      <link>https://h-zeus.github.io/categories/shell/</link>
+      <pubDate>Mon, 13 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://h-zeus.github.io/categories/shell/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>PHP</title>
