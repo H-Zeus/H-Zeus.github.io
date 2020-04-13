@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Shell on My Site</title>
+    <link>https://h-zeus.github.io/categories/shell/</link>
+    <description>Recent content in Shell on My Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 13 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://h-zeus.github.io/categories/shell/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Shell 基本语法</title>
+      <link>https://h-zeus.github.io/posts/shell-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</link>
+      <pubDate>Mon, 13 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://h-zeus.github.io/posts/shell-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</guid>
+      <description>解析器标识 #!/bin/bash
+数值计算 var=$((运算内容))
+判断式 test 或 []
+测试标志 关于文件的文件类型判断 ­e 该文件是否存在 ­f 该文件是否存在且为文件 ­d 该文件是否存在且为目录 ­b 该文件是否存在且为一个block device设备 ­c 该文件是否存在且为一个character device设备 ­S 该文件是否存在且为一个Socket文件 ­p 该文件是否存在且为一个FIFO(pipe)文件 ­L 该文件是否存在且为一个连接文件 关于文件的权限检测 root对一些文件权限无作用 ­r 检测该文件是否存在且对当前用户具有可读权限 ­w 检测该文件是否存在且对当前用户具有可写权限 ­x 检测该文件是否存在且对当前用户具有可执行权限 ­u 检测该文件是否存在且对当前用户具有SUID权限 ­g 检测该文件是否存在且对当前用户具有SGID权限 ­k 检测该文件是否存在且对当前用户具有Sticky bit权限 ­s 检测该文件是否存在且为“非空白文件” 两个文件的比较 如 test file1 ­nt file2 ­nt newer than 判断文件1是否比文件2新 ­ot older than 判断文件1是否比文件2旧 判断文件1与文件2是否为同一文件，可用在判断hard link的判定上，主要判定两个文件 -ef 判断文件1与文件2是否为同一文件，可用在判断hard link的判定上，主要判定两个文件是否指向同一个inode 关于两个整数之间的判定 test n1 ­eq n2 ­eq 两数值相等 ­ne 两数值不相等 ­gt n1 大于 n2 ­lt n1 小于 n2 ­ge n1大于等于n2 ­le n1小于等于n2 判定字符串的数据 test ­z string 判定字符串是否为0，若string为空字符串，则为true test ­n string 判断字符串是否非0，若string为空字符串，返回false，­n可以省略 test str1=str2 判断str1是否等于str2，相等回传true test str1!</description>
+    </item>
+    
+  </channel>
+</rss>
