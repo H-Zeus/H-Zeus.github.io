@@ -100,7 +100,8 @@
 </script>
 
           </div>
-		   </main>
+          <div id="gitalk-container"></div>
+         </main>
       <footer class="footer">
     <div class="copyright">
         &copy;
@@ -137,3 +138,18 @@
      </div>
   </body>
 </html>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '933f03fe0914b164b2a3',
+        clientSecret: 'cda4e611ea916dd96034ff05f0aa5b8368bd66ca',
+        repo: `blog`,
+        owner: 'H-Zeus',
+        admin: ['H-Zeus'],
+        id: location.pathname.slice(0,30),
+        distractionFreeMode: true, 
+    });
+    gitalk.render('gitalk-container');
+</script>
