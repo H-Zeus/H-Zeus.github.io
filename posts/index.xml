@@ -6,10 +6,29 @@
     <description>Recent content in Posts on My Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://h-zeus.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>PHP垃圾回收机制</title>
+      <link>https://h-zeus.github.io/posts/php%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</link>
+      <pubDate>Thu, 23 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://h-zeus.github.io/posts/php%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</guid>
+      <description>原理 利用引用计数refcount
+PHP5、PHP7 的不同点  PHP5 标量数据类型会计数，PHP7 标量数据类型不再计数，不需要单独分配内存。 PHP7 的 zval 需要的内存不再是单独从堆上分配，不再自己存储引用计数。 PHP7 的复杂数据类型（比如数组和对象）的引用计数由其自身来存储。  变量在 zval 的变量容器中结构    类型     值   is_ref   refcount     is_ref 是个 bool 值，用来区分变量是否属于引用集合。 refcount 计数器，表示指向这个 zval 变量容器的变量个数。  在 PHP5.3 的GC中，针对垃圾处理做了如下说明：  如果一个 zval 的 refcount 增加，那么此 zval 还在使用，肯定不是垃圾，不会进入缓冲区。 如果一个 zval 的 refcount 减少到 0，那么此 zval 会被立即释放掉，不属于 GC 要处理的垃圾对象，不会进入缓冲区。 如果一个 zval 的 refcount 减少之后大于 0，那么此 zval 还不能被释放，此 zval 可能成为一个垃圾，将其放入缓冲区。  垃圾回收算法  对每个缓冲区中的根 zval 按照深度优先遍历算法遍历所有能遍历到的 zval，并将每个 zval 的 refcount 减 1，同时为了避免对同一 zval 多次减 1（因为可能不同的根能遍历到同一个 zval），每次对某个 zval 减 1 后就对其标记为”已减“。 再次对每个缓冲区中的根 zval 深度优先遍历，如果某个 zval 的 recount 不为 0，则对其加 1，否则保持其为 0.</description>
+    </item>
+    
+    <item>
+      <title>正则表达式</title>
+      <link>https://h-zeus.github.io/posts/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</link>
+      <pubDate>Fri, 17 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://h-zeus.github.io/posts/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</guid>
+      <description>常用符号 ^ 匹配输入字符串的开始位置 + 匹配一个或多个字符（至少要有一个） $ 匹配输入字符串的结束位置 * 匹配0个或多个字符串（可以没有，也可以有） ? 最多出现一次 \ 转义 . 除换行之外的任何字符 | 指明两项之间选择一项 /^c/ =&amp;gt; 匹配&amp;#39;c&amp;#39;开头的字符串 /^cm+/ =&amp;gt; 匹配&amp;#39;cm&amp;#39;开头的字符串 /^cm+k$/ =&amp;gt; 匹配&amp;#39;cmk&amp;#39;,&amp;#39;cmmmmk&amp;#39;中间不能有其他字符 /^cm+a+b*k$/ =&amp;gt; 匹配&amp;#39;cmak&amp;#39;, &amp;#39;cmmmaaak&amp;#39;, &amp;#39;cmmmaaaabbbbk&amp;#39;等 /^cma?k$/ =&amp;gt; 匹配&amp;#39;cmak&amp;#39;或&amp;#39;cmk&amp;#39; /^cm\\+k$/ =&amp;gt; 匹配&amp;#39;cm\k&amp;#39;,&amp;#39;cm\\\k&amp;#39;等 /^cm.*k$/ =&amp;gt; 匹配&amp;#39;cm&amp;#39;开头，&amp;#39;k&amp;#39;结尾的字符串 /^cm|hk$/ =&amp;gt; 匹配&amp;#39;cmk&amp;#39;,&amp;#39;chk&amp;#39; 转义字符 \f 匹配一个换页符 \n 匹配换行符 \r 匹配回车符 \s 匹配任何空白字符，如空格，制表符，换页符等 \S 匹配任何非空白字符 \t 匹配制表符 \v 匹配垂直制表符 \d 匹配数字 \D 匹配非数字 \w 匹配下划线在内的任何单词字符：_ A-Z a-z 0-9 \b 匹配字符边界，字符与空格之间的位置 /\b[\w]+\b/ // 匹配出一个单词  表达式  [ ] 中括号表达式，字符集  /^c[0-9]+k$/ =&amp;gt;匹配&#39;c&#39;开头，&#39;k&#39;结尾，中间至少有一个数字的字符串 /^c[0-9A-Z]+k$/ =&amp;gt;匹配&#39;c&#39;开头，&#39;k&#39;结尾，中间至少有一个数字或大写字母的字符串 /^c[0-9A-Za-z_]+k$/ =&amp;gt; 等价于 /^c\w+k$/ /^c[^0-9]+k$/ =&amp;gt; 中括号内的^表示除此集合之外的字符 {} 限定出现次数  /^[0-9]{6}$/ =&amp;gt; 匹配6位数字 /^[0-9]{4,6}$/ =&amp;gt; 匹配4到6位数字 () 子表达式，可以看成一个字符  示例解析 /^(-|\+)?</description>
+    </item>
     
     <item>
       <title>Shell 基本语法</title>

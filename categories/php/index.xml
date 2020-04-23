@@ -6,10 +6,20 @@
     <description>Recent content in PHP on My Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 08 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://h-zeus.github.io/categories/php/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>PHP垃圾回收机制</title>
+      <link>https://h-zeus.github.io/posts/php%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</link>
+      <pubDate>Thu, 23 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://h-zeus.github.io/posts/php%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</guid>
+      <description>原理 利用引用计数refcount
+PHP5、PHP7 的不同点  PHP5 标量数据类型会计数，PHP7 标量数据类型不再计数，不需要单独分配内存。 PHP7 的 zval 需要的内存不再是单独从堆上分配，不再自己存储引用计数。 PHP7 的复杂数据类型（比如数组和对象）的引用计数由其自身来存储。  变量在 zval 的变量容器中结构    类型     值   is_ref   refcount     is_ref 是个 bool 值，用来区分变量是否属于引用集合。 refcount 计数器，表示指向这个 zval 变量容器的变量个数。  在 PHP5.3 的GC中，针对垃圾处理做了如下说明：  如果一个 zval 的 refcount 增加，那么此 zval 还在使用，肯定不是垃圾，不会进入缓冲区。 如果一个 zval 的 refcount 减少到 0，那么此 zval 会被立即释放掉，不属于 GC 要处理的垃圾对象，不会进入缓冲区。 如果一个 zval 的 refcount 减少之后大于 0，那么此 zval 还不能被释放，此 zval 可能成为一个垃圾，将其放入缓冲区。  垃圾回收算法  对每个缓冲区中的根 zval 按照深度优先遍历算法遍历所有能遍历到的 zval，并将每个 zval 的 refcount 减 1，同时为了避免对同一 zval 多次减 1（因为可能不同的根能遍历到同一个 zval），每次对某个 zval 减 1 后就对其标记为”已减“。 再次对每个缓冲区中的根 zval 深度优先遍历，如果某个 zval 的 recount 不为 0，则对其加 1，否则保持其为 0.</description>
+    </item>
     
     <item>
       <title>PHP获取二维数组中某一列的值集合</title>

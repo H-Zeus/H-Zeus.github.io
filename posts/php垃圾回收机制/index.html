@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Zeus">
+  
+  
+  
+  <link rel="prev" href="https://h-zeus.github.io/posts/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" />
+  
+  <link rel="canonical" href="https://h-zeus.github.io/posts/php%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           PHP垃圾回收机制 | My Site
+       
+  </title>
+  <meta name="title" content="PHP垃圾回收机制 | My Site">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/h-zeus.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "PHP垃圾回收机制",
+    "headline" : "PHP垃圾回收机制",
+    "description" : "原理 利用引用计数refcount\nPHP5、PHP7 的不同点  PHP5 标量数据类型会计数，PHP7 标量数据类型不再计数，不需要单独分配内存。 PHP7 的 zval 需要的内存不再是单独从堆上分配，不再自己存储引用计数。 PHP7 的复杂数据类型（比如数组和对象）的引用计数由其自身来存储。  变量在 zval 的变量容器中结构    类型     值   is_ref   refcount     is_ref 是个 bool 值，用来区分变量是否属于引用集合。 refcount 计数器，表示指向这个 zval 变量容器的变量个数。  在 PHP5.3 的GC中，针对垃圾处理做了如下说明：  如果一个 zval 的 refcount 增加，那么此 zval 还在使用，肯定不是垃圾，不会进入缓冲区。 如果一个 zval 的 refcount 减少到 0，那么此 zval 会被立即释放掉，不属于 GC 要处理的垃圾对象，不会进入缓冲区。 如果一个 zval 的 refcount 减少之后大于 0，那么此 zval 还不能被释放，此 zval 可能成为一个垃圾，将其放入缓冲区。  垃圾回收算法  对每个缓冲区中的根 zval 按照深度优先遍历算法遍历所有能遍历到的 zval，并将每个 zval 的 refcount 减 1，同时为了避免对同一 zval 多次减 1（因为可能不同的根能遍历到同一个 zval），每次对某个 zval 减 1 后就对其标记为”已减“。 再次对每个缓冲区中的根 zval 深度优先遍历，如果某个 zval 的 recount 不为 0，则对其加 1，否则保持其为 0.",
+    "inLanguage" : "en-us",
+    "author" : "Zeus",
+    "creator" : "Zeus",
+    "publisher": "Zeus",
+    "accountablePerson" : "Zeus",
+    "copyrightHolder" : "Zeus",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-04-23 00:00:00 \x2b0000 UTC",
+    "dateModified" : "2020-04-23 00:00:00 \x2b0000 UTC",
+    "url" : "https:\/\/h-zeus.github.io\/posts\/php%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6\/",
+    "wordCount" : "314",
+    "keywords" : [  "My Site"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://h-zeus.github.io/">My Site</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://h-zeus.github.io/">My Site</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">PHP垃圾回收机制</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://h-zeus.github.io/" rel="author">Zeus</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-04-23 itemprop="datePublished">April 23, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://h-zeus.github.io/categories/php/"> PHP </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h3 id="原理">原理</h3>
+<p>利用引用计数<code>refcount</code></p>
+<h3 id="php5php7-的不同点">PHP5、PHP7 的不同点</h3>
+<ol>
+<li>PHP5 标量数据类型会计数，PHP7 标量数据类型不再计数，不需要单独分配内存。</li>
+<li>PHP7 的 zval 需要的内存不再是单独从堆上分配，不再自己存储引用计数。</li>
+<li>PHP7 的复杂数据类型（比如数组和对象）的引用计数由其自身来存储。</li>
+</ol>
+<h3 id="变量在-zval-的变量容器中结构">变量在 zval 的变量容器中结构</h3>
+<table>
+<thead>
+<tr>
+<th align="center">类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">值</td>
+</tr>
+<tr>
+<td align="center">is_ref</td>
+</tr>
+<tr>
+<td align="center">refcount</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>is_ref</code> 是个 bool 值，用来区分变量是否属于引用集合。</li>
+<li><code>refcount</code> 计数器，表示指向这个 zval 变量容器的变量个数。</li>
+</ul>
+<h3 id="在-php53-的gc中针对垃圾处理做了如下说明">在 PHP5.3 的GC中，针对垃圾处理做了如下说明：</h3>
+<ol>
+<li>如果一个 zval 的 refcount 增加，那么此 zval 还在使用，肯定不是垃圾，不会进入缓冲区。</li>
+<li>如果一个 zval 的 refcount 减少到 0，那么此 zval 会被立即释放掉，不属于 GC 要处理的垃圾对象，不会进入缓冲区。</li>
+<li>如果一个 zval 的 refcount 减少之后大于 0，那么此 zval 还不能被释放，此 zval 可能成为一个垃圾，将其放入缓冲区。</li>
+</ol>
+<h3 id="垃圾回收算法">垃圾回收算法</h3>
+<ol>
+<li>对每个缓冲区中的根 zval 按照深度优先遍历算法遍历所有能遍历到的 zval，并将每个 zval 的 refcount 减 1，同时为了避免对同一 zval 多次减 1（因为可能不同的根能遍历到同一个 zval），每次对某个 zval 减 1 后就对其标记为”已减“。</li>
+<li>再次对每个缓冲区中的根 zval 深度优先遍历，如果某个 zval 的 recount 不为 0，则对其加 1，否则保持其为 0.</li>
+<li>清空根缓冲区中的所有根（注意是把这些 zval 从缓冲区中清除而不是销毁它们），然后销毁所有 refcount 为 0 的 zval，并回收其内存。</li>
+</ol>
+<h3 id="php53-垃圾回收算法特性">PHP5.3 垃圾回收算法特性</h3>
+<ol>
+<li>并不是每次 refcount 减少时都进入回收周期，只有根缓冲区满额后再开始垃圾回收。</li>
+<li>可以解决循环引用问题。</li>
+<li>可以总将内存泄露保持在一个阈值一下。</li>
+</ol>
+<h4 id="php53标量在zval容器例子">PHP5.3标量在zval容器例子</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#75715e">&lt;?php</span>
+<span style="color:#75715e">/*
+</span><span style="color:#75715e">php5.3中将一个变量 = 赋值给另一个变量时，不会立即为新变量分配内存空间，而是在原变量的zval中给refcount加1。
+</span><span style="color:#75715e">只有当原变量或者发生改变时，才会为新变量分配内存空间，同时原变量的refcount减 1 。
+</span><span style="color:#75715e">当然，如果unset原变量，新变量直接就使用原变量的zval而不是重新分配。
+</span><span style="color:#75715e">&amp;引用赋值时，原变量的is_ref  加1
+</span><span style="color:#75715e">如果给一个变量&amp;赋值，之前 = 赋值的变量会分配空间。
+</span><span style="color:#75715e">*/</span>
+$a <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#a6e22e">xdebug_debug_zval</span>(<span style="color:#e6db74">&#39;a&#39;</span>);
+<span style="color:#66d9ef">echo</span> <span style="color:#a6e22e">PHP_EOL</span>;
+$b <span style="color:#f92672">=</span> $a;
+<span style="color:#a6e22e">xdebug_debug_zval</span>(<span style="color:#e6db74">&#39;a&#39;</span>);
+<span style="color:#66d9ef">echo</span> <span style="color:#a6e22e">PHP_EOL</span>;
+ 
+$c <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>$a;
+<span style="color:#a6e22e">xdebug_debug_zval</span>(<span style="color:#e6db74">&#39;a&#39;</span>);
+<span style="color:#66d9ef">echo</span> <span style="color:#a6e22e">PHP_EOL</span>;
+ 
+<span style="color:#a6e22e">xdebug_debug_zval</span>(<span style="color:#e6db74">&#39;b&#39;</span>);
+<span style="color:#66d9ef">echo</span> <span style="color:#a6e22e">PHP_EOL</span>;
+
+<span style="color:#a6e22e">结果如下：</span>
+<span style="color:#a6e22e">a</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),<span style="color:#a6e22e">int</span> <span style="color:#ae81ff">1</span>
+<span style="color:#a6e22e">a</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),<span style="color:#a6e22e">int</span> <span style="color:#ae81ff">1</span>
+<span style="color:#a6e22e">a</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>),<span style="color:#a6e22e">int</span> <span style="color:#ae81ff">1</span>
+<span style="color:#a6e22e">b</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),<span style="color:#a6e22e">int</span> <span style="color:#ae81ff">1</span>
+</code></pre></div><h4 id="php7标量在zval容器例子">PHP7标量在zval容器例子</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#75715e">&lt;?php</span>
+$a <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#a6e22e">xdebug_debug_zval</span>(<span style="color:#e6db74">&#39;a&#39;</span>);
+<span style="color:#66d9ef">echo</span> <span style="color:#a6e22e">PHP_EOL</span>;
+$b <span style="color:#f92672">=</span> $a;
+<span style="color:#a6e22e">xdebug_debug_zval</span>(<span style="color:#e6db74">&#39;a&#39;</span>);
+
+<span style="color:#a6e22e">结果如下：</span>
+<span style="color:#a6e22e">a</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),<span style="color:#a6e22e">int</span> <span style="color:#ae81ff">1</span>
+<span style="color:#a6e22e">a</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),<span style="color:#a6e22e">int</span> <span style="color:#ae81ff">1</span>
+</code></pre></div><h4 id="php53复合类型数组和对象在zval容器例子">PHP5.3复合类型数组和对象在zval容器例子</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#75715e">&lt;?php</span>
+$a <span style="color:#f92672">=</span> <span style="color:#66d9ef">array</span>( <span style="color:#e6db74">&#39;meaning&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;life&#39;</span>, <span style="color:#e6db74">&#39;number&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">42</span> );
+<span style="color:#a6e22e">xdebug_debug_zval</span>( <span style="color:#e6db74">&#39;a&#39;</span> );
+<span style="color:#66d9ef">echo</span> <span style="color:#a6e22e">PHP_EOL</span>;
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span>{
+    <span style="color:#66d9ef">public</span> $a <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">public</span> $b <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+     
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">handle</span>(){
+        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;hehe&#39;</span>;
+    }
+}
+ 
+$test <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Test</span>();
+<span style="color:#a6e22e">xdebug_debug_zval</span>(<span style="color:#e6db74">&#39;test&#39;</span>);
+
+<span style="color:#75715e">//结果如下：可以看出，数组用了比数组长度多1个zval存储。数组分配了三个zval容器：a   meaning  number
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">a</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),
+<span style="color:#66d9ef">array</span>
+  <span style="color:#e6db74">&#39;meaning&#39;</span> <span style="color:#f92672">=&gt;</span> (<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),
+<span style="color:#a6e22e">string</span>
+<span style="color:#e6db74">&#39;life&#39;</span> (<span style="color:#a6e22e">length</span><span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>)
+  <span style="color:#e6db74">&#39;number&#39;</span> <span style="color:#f92672">=&gt;</span> (<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),
+<span style="color:#a6e22e">int</span>
+<span style="color:#a6e22e">test</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),
+<span style="color:#a6e22e">object</span>(<span style="color:#a6e22e">Test</span>)[<span style="color:#ae81ff">1</span>]
+  <span style="color:#66d9ef">public</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">=&gt;</span> (<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),
+<span style="color:#a6e22e">int</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">=&gt;</span> (<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),
+<span style="color:#a6e22e">int</span>
+</code></pre></div><h4 id="php7复合类型数组和对象在zval容器例子">PHP7复合类型数组和对象在zval容器例子</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#75715e">&lt;?php</span>
+
+$a <span style="color:#f92672">=</span> <span style="color:#66d9ef">array</span>( <span style="color:#e6db74">&#39;meaning&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;life&#39;</span>, <span style="color:#e6db74">&#39;number&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">42</span> );
+<span style="color:#a6e22e">xdebug_debug_zval</span>( <span style="color:#e6db74">&#39;a&#39;</span> );
+<span style="color:#66d9ef">echo</span> <span style="color:#a6e22e">PHP_EOL</span>;
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span>{
+    <span style="color:#66d9ef">public</span> $a <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">public</span> $b <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+     
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">handle</span>(){
+        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;hehe&#39;</span>;
+    }
+}
+ 
+$test <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Test</span>();
+<span style="color:#a6e22e">xdebug_debug_zval</span>(<span style="color:#e6db74">&#39;test&#39;</span>);
+
+<span style="color:#75715e">//结果如下：可以明显的看到数组a的refcount=2，后经测试发现数组的refcount都是从2开始的
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">a</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),
+<span style="color:#66d9ef">array</span>(<span style="color:#a6e22e">size</span><span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
+  <span style="color:#e6db74">&#39;meaning&#39;</span> <span style="color:#f92672">=&gt;</span> (<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>) <span style="color:#a6e22e">string</span> <span style="color:#e6db74">&#39;life&#39;</span> (<span style="color:#a6e22e">length</span><span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>)
+  <span style="color:#e6db74">&#39;number&#39;</span> <span style="color:#f92672">=&gt;</span> (<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>) <span style="color:#a6e22e">int</span> <span style="color:#ae81ff">42</span>
+
+<span style="color:#a6e22e">test</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),
+<span style="color:#a6e22e">object</span>(<span style="color:#a6e22e">Test</span>)[<span style="color:#ae81ff">1</span>]
+  <span style="color:#66d9ef">public</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">=&gt;</span> (<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),<span style="color:#a6e22e">int</span> <span style="color:#ae81ff">1</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">=&gt;</span> (<span style="color:#a6e22e">refcount</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">is_ref</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),<span style="color:#a6e22e">int</span> <span style="color:#ae81ff">2</span>
+</code></pre></div><p>ps：文章引用自 <strong>PHP开源社区</strong> <a href="https://www.cnblogs.com/liliuguang/p/12582950.html">https://www.cnblogs.com/liliuguang/p/12582950.html</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Zeus </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://h-zeus.github.io/posts/php%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/>https://h-zeus.github.io/posts/php%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://h-zeus.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://h-zeus.github.io/posts/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="prev" rel="prev" title="正则表达式"><i class="iconfont icon-left"></i>&nbsp;正则表达式</a>
+         
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2018 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://h-zeus.github.io/">Zeus</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>
