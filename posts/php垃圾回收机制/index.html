@@ -314,7 +314,7 @@ $test <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span
             
     </div>
 
-  
+
     <div class="post-tags">
         
         <section>
@@ -335,6 +335,21 @@ $test <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span
                  
           
     </div>
+    <div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: 'e66088a4a2a13aaf85c8',
+        clientSecret: 'ec8158b5a1261b452497cb88b355017915d64b48',
+        repo: 'blog-comments',
+        owner: 'H-Zeus',
+        admin: ['H-Zeus'],
+        id: location.pathname.slice(0,30),
+        distractionFreeMode: true, 
+    });
+    gitalk.render('gitalk-container');
+</script>
 </article>
              </div>
          </main>
