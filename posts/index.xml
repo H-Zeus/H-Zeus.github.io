@@ -6,10 +6,24 @@
     <description>Recent content in Posts on My Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 23 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 29 Apr 2020 15:56:16 +0800</lastBuildDate>
     
 	<atom:link href="https://h-zeus.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linux Expect 用法</title>
+      <link>https://h-zeus.github.io/posts/linux-expect-%E7%94%A8%E6%B3%95/</link>
+      <pubDate>Wed, 29 Apr 2020 15:56:16 +0800</pubDate>
+      
+      <guid>https://h-zeus.github.io/posts/linux-expect-%E7%94%A8%E6%B3%95/</guid>
+      <description>起因 有两台Linux主机 需要从 A主机 ssh到B主机，然后在B主机上执行命令
+起初只能像 ssh admin@10.13.14.230 &amp;quot;ls&amp;quot; 这样手动执行 每次都要输入密码
+如何全程自动化呢？ 这就要用到今天这篇文章介绍的 expect 了
+ps: 会 Python 请绕道~~
+Expect 用来实现自动交互功能的工具
+首行 #!/usr/bin/expect -f 告诉操作系统脚本里的代码使用那一个shell来执行。 这里的expect其实和linux下的bash、windows下的cmd是一类东西。 命令 1 set timeout 30 # 设置超时时间 单位:秒 [timeout -1 为永不超时] set 变量名 &amp;#34;值&amp;#34; # 设置变量 [$变量名 使用] spawn 启动新的进程 spawn ssh username@192.168.1.1 # 传递交互指令 spawn 命令用来启动新的进程，spawn后的send和expect命令都是和使用spawn打开的进程进行交互。 expect 从进程接收字符串 expect &amp;#34;password:&amp;#34; # 判断上次输出结果里是否包含“password:”的字符串 有则立即返回，否则就等待一段时间后返回，等待时长就是前面设置的30秒 expect 命令和send命令相反，expect通常用来等待一个进程的反馈，我们根据进程的反馈，再发送对应的交互命令。 send 用于向进程发送字符串 send &amp;#34;yes\r&amp;#34; # 执行交互动作 [\r 换行] send 命令接收一个字符串参数，并将该参数发送到进程。 exp_continue # 继续向下执行匹配 interact # 执行完成后保持交互状态，把控制权交给控制台 [如果没有ssh后就会退出 而不是留在远程终端上] interact 命令主要用于退出自动化，进入人工交互。 $argv 参数数组 # expect脚本可以接受从bash传递过来的参数.</description>
+    </item>
     
     <item>
       <title>PHP垃圾回收机制</title>
