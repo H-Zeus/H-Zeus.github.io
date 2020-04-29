@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Zeus">
+  
+  
+  
+  <link rel="prev" href="https://h-zeus.github.io/posts/php%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" />
+  
+  <link rel="canonical" href="https://h-zeus.github.io/posts/linux-expect-%E7%94%A8%E6%B3%95/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Linux Expect 用法 | My Site
+       
+  </title>
+  <meta name="title" content="Linux Expect 用法 | My Site">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/h-zeus.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "Linux Expect 用法",
+    "headline" : "Linux Expect 用法",
+    "description" : "起因 有两台Linux主机 需要从 A主机 ssh到B主机，然后在B主机上执行命令\n起初只能像 ssh admin@10.13.14.230 \x26quot;ls\x26quot; 这样手动执行 每次都要输入密码\n如何全程自动化呢？ 这就要用到今天这篇文章介绍的 expect 了\nps: 会 Python 请绕道~~\nExpect 用来实现自动交互功能的工具\n首行 #!\/usr\/bin\/expect -f 告诉操作系统脚本里的代码使用那一个shell来执行。 这里的expect其实和linux下的bash、windows下的cmd是一类东西。 命令 1 set timeout 30 # 设置超时时间 单位:秒 [timeout -1 为永不超时] set 变量名 \x26#34;值\x26#34; # 设置变量 [$变量名 使用] spawn 启动新的进程 spawn ssh username@192.168.1.1 # 传递交互指令 spawn 命令用来启动新的进程，spawn后的send和expect命令都是和使用spawn打开的进程进行交互。 expect 从进程接收字符串 expect \x26#34;password:\x26#34; # 判断上次输出结果里是否包含“password:”的字符串 有则立即返回，否则就等待一段时间后返回，等待时长就是前面设置的30秒 expect 命令和send命令相反，expect通常用来等待一个进程的反馈，我们根据进程的反馈，再发送对应的交互命令。 send 用于向进程发送字符串 send \x26#34;yes\\r\x26#34; # 执行交互动作 [\\r 换行] send 命令接收一个字符串参数，并将该参数发送到进程。 exp_continue # 继续向下执行匹配 interact # 执行完成后保持交互状态，把控制权交给控制台 [如果没有ssh后就会退出 而不是留在远程终端上] interact 命令主要用于退出自动化，进入人工交互。 $argv 参数数组 # expect脚本可以接受从bash传递过来的参数.",
+    "inLanguage" : "en-us",
+    "author" : "Zeus",
+    "creator" : "Zeus",
+    "publisher": "Zeus",
+    "accountablePerson" : "Zeus",
+    "copyrightHolder" : "Zeus",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-04-29 15:56:16 \x2b0800 CST",
+    "dateModified" : "2020-04-29 15:56:16 \x2b0800 CST",
+    "url" : "https:\/\/h-zeus.github.io\/posts\/linux-expect-%E7%94%A8%E6%B3%95\/",
+    "wordCount" : "239",
+    "keywords" : [  "My Site"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://h-zeus.github.io/">My Site</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://h-zeus.github.io/">My Site</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+             <div class="container">
+                 
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Linux Expect 用法</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://h-zeus.github.io/" rel="author">Zeus</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-04-29 itemprop="datePublished">April 29, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://h-zeus.github.io/categories/linux/"> Linux </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h3 id="起因">起因</h3>
+<p>有两台Linux主机 需要从 A主机 ssh到B主机，然后在B主机上执行命令<br>
+起初只能像 <code>ssh admin@10.13.14.230 &quot;ls&quot;</code> 这样手动执行 每次都要输入密码<br>
+如何全程自动化呢？
+这就要用到今天这篇文章介绍的 <code>expect</code> 了<br>
+ps: 会 Python 请绕道~~</p>
+<h3 id="expect">Expect</h3>
+<p>用来实现自动交互功能的工具</p>
+<h3 id="首行">首行</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#!/usr/bin/expect -f
+</span><span style="color:#75715e"></span>告诉操作系统脚本里的代码使用那一个shell来执行。
+这里的expect其实和linux下的bash、windows下的cmd是一类东西。 
+</code></pre></div><h3 id="命令-命令">命令 <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">set timeout <span style="color:#ae81ff">30</span>  <span style="color:#75715e"># 设置超时时间 单位:秒 [timeout -1 为永不超时]</span>
+set 变量名 <span style="color:#e6db74">&#34;值&#34;</span>  <span style="color:#75715e"># 设置变量 [$变量名 使用]</span>
+
+spawn 启动新的进程
+spawn ssh username@192.168.1.1  <span style="color:#75715e"># 传递交互指令</span>
+spawn 命令用来启动新的进程，spawn后的send和expect命令都是和使用spawn打开的进程进行交互。
+
+expect 从进程接收字符串
+expect <span style="color:#e6db74">&#34;password:&#34;</span>  <span style="color:#75715e"># 判断上次输出结果里是否包含“password:”的字符串 有则立即返回，否则就等待一段时间后返回，等待时长就是前面设置的30秒</span>
+expect 命令和send命令相反，expect通常用来等待一个进程的反馈，我们根据进程的反馈，再发送对应的交互命令。
+
+send 用于向进程发送字符串
+send <span style="color:#e6db74">&#34;yes\r&#34;</span>  <span style="color:#75715e"># 执行交互动作 [\r 换行]</span>
+send 命令接收一个字符串参数，并将该参数发送到进程。
+
+exp_continue  <span style="color:#75715e"># 继续向下执行匹配</span>
+interact  <span style="color:#75715e"># 执行完成后保持交互状态，把控制权交给控制台 [如果没有ssh后就会退出 而不是留在远程终端上]</span>
+interact 命令主要用于退出自动化，进入人工交互。
+
+$argv 参数数组  <span style="color:#75715e"># expect脚本可以接受从bash传递过来的参数.使用[lindex $argv n]获得，n从0开始，分别表示第一个,第二个,第三个....参数</span>
+$argc 参数个数
+</code></pre></div><h3 id="示例">示例</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#!/usr/bin/expect -f  # 使用expect来解释该脚本
+</span><span style="color:#75715e"></span>
+set ipaddr <span style="color:#e6db74">&#34;10.13.14.230&#34;</span>  <span style="color:#75715e"># 设置要登录的主机 IP 地址</span>
+set password <span style="color:#e6db74">&#34;admin&#34;</span>   <span style="color:#75715e"># 设置以什么名字的用户登录</span>
+
+spawn ssh work@$ipaddr  <span style="color:#75715e"># spawn 一个 ssh 登录进程</span>
+<span style="color:#75715e"># 等待响应，第一次登录往往会提示是否永久保存 RSA 到本机的 know hosts 列表中；</span>
+<span style="color:#75715e"># 等到回答后，在提示输出密码；之后就直接提示输入密码</span>
+
+expect <span style="color:#f92672">{</span>
+    <span style="color:#e6db74">&#34;yes/no&#34;</span>    <span style="color:#f92672">{</span>send <span style="color:#e6db74">&#34;yes\r&#34;</span>;exp_continue<span style="color:#f92672">}</span>  <span style="color:#75715e"># 如果出现”yes/no“ 则发送“yes\r” 并继续向下执行</span>
+    <span style="color:#e6db74">&#34;password:&#34;</span> <span style="color:#f92672">{</span>send <span style="color:#e6db74">&#34;</span>$password<span style="color:#e6db74">\r&#34;</span>;exp_continue<span style="color:#f92672">}</span>  <span style="color:#75715e"># 如果出现”password:“ 则发送“密码” 并继续向下执行</span>
+    <span style="color:#e6db74">&#34;]</span>$<span style="color:#e6db74"> &#34;</span>       <span style="color:#f92672">{</span>send <span style="color:#e6db74">&#34;cd /home/\r&#34;</span>;interact<span style="color:#f92672">}</span>  <span style="color:#75715e"># 如果出现”yes/no“ 则发送“要进入的目录” 并保持交互状态</span>      
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#!/usr/tcl/bin/expect
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">{</span>$argc &lt; 3<span style="color:#f92672">}</span> <span style="color:#f92672">{</span>
+    puts <span style="color:#e6db74">&#34;Usage:cmd &lt;host&gt; &lt;username&gt; &lt;password&gt;&#34;</span>
+    exit <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">}</span>
+
+set timeout -1
+set host <span style="color:#f92672">[</span>lindex $argv 0<span style="color:#f92672">]</span> 
+set username <span style="color:#f92672">[</span>lindex $argv 1<span style="color:#f92672">]</span>
+set password <span style="color:#f92672">[</span>lindex $argv 2<span style="color:#f92672">]</span>
+
+spawn ssh $username@$host
+expect <span style="color:#e6db74">&#34;*password*&#34;</span> <span style="color:#f92672">{</span>send <span style="color:#e6db74">&#34;</span>$password<span style="color:#e6db74">\r&#34;</span><span style="color:#f92672">}</span>
+interact
+</code></pre></div><h3 id="示例-调用loginexp完成批量管理">示例 [调用login.exp完成批量管理]</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#!/bin/bash
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">for</span> i in <span style="color:#e6db74">`</span>awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> passwd.txt<span style="color:#e6db74">`</span>
+<span style="color:#66d9ef">do</span>
+	j<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>awk -v I<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$i<span style="color:#e6db74">&#34;</span> <span style="color:#e6db74">&#39;{if(I==$1)print $2}&#39;</span> passwd.txt<span style="color:#e6db74">`</span>
+	expect /root/shell/login.exp $i $j
+<span style="color:#66d9ef">done</span>
+
+<span style="color:#75715e">######### passwd.txt #########</span>
+192.168.0.2  password2
+192.168.0.3  password3
+<span style="color:#75715e">######### login.exp #########</span>
+expect <span style="color:#f92672">{</span>
+	<span style="color:#e6db74">&#34;?assword:&#34;</span> <span style="color:#f92672">{</span>
+ 		<span style="color:#75715e"># 此大括号内是逐条执行，不存在if关系</span>
+		send <span style="color:#e6db74">&#34;</span>$PASSWORD<span style="color:#e6db74">\r&#34;</span>
+		exp_continue
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><blockquote>
+<p>文章参考自<br>
+<a href="https://www.cnblogs.com/iloveyoucc/archive/2012/05/11/2496433.html">https://www.cnblogs.com/iloveyoucc/archive/2012/05/11/2496433.html</a><br>
+<a href="https://www.jianshu.com/p/2fcdf764f464">https://www.jianshu.com/p/2fcdf764f464</a></p>
+</blockquote>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>在 expect 环境下才可执行 <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Zeus </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://h-zeus.github.io/posts/linux-expect-%E7%94%A8%E6%B3%95/>https://h-zeus.github.io/posts/linux-expect-%E7%94%A8%E6%B3%95/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+
+    <div class="post-tags">
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://h-zeus.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://h-zeus.github.io/posts/php%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" class="prev" rel="prev" title="PHP垃圾回收机制"><i class="iconfont icon-left"></i>&nbsp;PHP垃圾回收机制</a>
+         
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+    <div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: 'e66088a4a2a13aaf85c8',
+        clientSecret: 'ec8158b5a1261b452497cb88b355017915d64b48',
+        repo: 'blog-comments',
+        owner: 'H-Zeus',
+        admin: ['H-Zeus'],
+        id: location.pathname.slice(0,30),
+        distractionFreeMode: true, 
+    });
+    gitalk.render('gitalk-container');
+</script>
+</article>
+             </div>
+         </main>
+        <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2018 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://h-zeus.github.io/">Zeus</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span>
+          <span id="busuanzi_container_site_uv"> | uv <span id="busuanzi_value_site_uv"></span></span>
+          <span id="busuanzi_container_site_pv"> & pv <span id="busuanzi_value_site_pv"></span></span>
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+    </div>
+  </body>
+</html>
