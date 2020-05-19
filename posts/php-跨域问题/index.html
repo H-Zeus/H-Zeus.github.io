@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="阿天">
+  
+  
+  
+  <link rel="prev" href="https://h-zeus.github.io/posts/ping-%E5%91%BD%E4%BB%A4%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" />
+  
+  <link rel="canonical" href="https://h-zeus.github.io/posts/php-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           PHP 跨域问题 | My Site
+       
+  </title>
+  <meta name="title" content="PHP 跨域问题 | My Site">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/h-zeus.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "PHP 跨域问题",
+    "headline" : "PHP 跨域问题",
+    "description" : "什么是跨域？ 跨域，指的是从一个域名去请求另一个域名的资源。即跨域名请求！ 跨域时，浏览器不能执行其他域名网站的脚本，是由浏览器的同源策略造成的，是浏览器施加的安全限制。\n什么是同源策略？ 同源策略是一种约定，它是浏览器最核心也最基本的安全功能，如果缺少了同源策略，浏览器很容易受到 XSS、CSRF 等攻击。所谓同源是指”协议\x2b域名\x2b端口“三者相同，即便两个不同的域名指向同一个ip地址，也非同源。\n一个域名地址的组成： http:\/\/www.abc.com:8080\/scripts\/jquery.js http:\/\/ www . abc.com : 8080 \/ scripts\/jquery.js 协议\t子域名 主域名 端口号 请求资源地址 同源策略限制的内容有：\n Cookie、LocalStorage、IndexedDB 等存储性内容 DOM 节点 AJAX 请求发送后，结果被浏览器拦截了  允许跨域加载资源的三个标签：\n \x26lt;img src=\x26quot;\/picture.jpg\x26quot;\x26gt; \x26lt;link href=\x26quot;\/xxx\x26quot;\x26gt; \x26lt;script src=\x26quot;scripts\/jquery.js\x26quot;\x26gt;  常见的跨域场景 当协议、子域名、主域名、端口号中任意一个不相同时，都算作不同域。不同域之间相互请求资源，就算作”跨域“。\n常见跨域场景如下所示：\n   URL 场景 是否允许通信     http:\/\/www.a.com\/a.js\nhttp:\/\/www.a.com\/b.js 同一域名下 允许   http:\/\/www.a.com\/lab\/a.js\nhttp:\/\/www.a.com\/script\/b.js 同一域名下不同文件夹 允许   http:\/\/www.a.com:8080\/a.js\nhttp:\/\/www.a.com\/b.js 同一域名，不同端口 不允许   http:\/\/www.",
+    "inLanguage" : "en-us",
+    "author" : "阿天",
+    "creator" : "阿天",
+    "publisher": "阿天",
+    "accountablePerson" : "阿天",
+    "copyrightHolder" : "阿天",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-05-19 10:30:34 \x2b0800 CST",
+    "dateModified" : "2020-05-19 10:30:34 \x2b0800 CST",
+    "url" : "https:\/\/h-zeus.github.io\/posts\/php-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98\/",
+    "wordCount" : "317",
+    "keywords" : [  "My Site"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://h-zeus.github.io/">My Site</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://h-zeus.github.io/">My Site</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+             <div class="container">
+                 
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">PHP 跨域问题</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://h-zeus.github.io/" rel="author">阿天</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-05-19 itemprop="datePublished">May 19, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://h-zeus.github.io/categories/php/"> PHP </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h3 id="什么是跨域">什么是跨域？</h3>
+<p><strong>跨域，指的是从一个域名去请求另一个域名的资源。即跨域名请求！</strong> 跨域时，浏览器不能执行其他域名网站的脚本，是由浏览器的<strong>同源策略</strong>造成的，是浏览器施加的安全限制。</p>
+<h3 id="什么是同源策略">什么是同源策略？</h3>
+<p>同源策略是一种约定，它是浏览器最核心也最基本的安全功能，如果缺少了同源策略，浏览器很容易受到 XSS、CSRF 等攻击。所谓同源是指”协议+域名+端口“三者相同，即便两个不同的域名指向同一个ip地址，也非同源。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">一个域名地址的组成：
+http://www.abc.com:8080/scripts/jquery.js
+http://    www    .  abc.com   :   8080    /   scripts/jquery.js
+ 协议	   子域名       主域名        端口号          请求资源地址
+</code></pre></div><p>同源策略限制的内容有：</p>
+<ol>
+<li>Cookie、LocalStorage、IndexedDB 等存储性内容</li>
+<li>DOM 节点</li>
+<li>AJAX 请求发送后，结果被浏览器拦截了</li>
+</ol>
+<p>允许跨域加载资源的三个标签：</p>
+<ul>
+<li><code>&lt;img src=&quot;/picture.jpg&quot;&gt;</code></li>
+<li><code>&lt;link href=&quot;/xxx&quot;&gt;</code></li>
+<li><code>&lt;script src=&quot;scripts/jquery.js&quot;&gt;</code></li>
+</ul>
+<h3 id="常见的跨域场景">常见的跨域场景</h3>
+<p>当协议、子域名、主域名、端口号中任意一个不相同时，都算作不同域。不同域之间相互请求资源，就算作”跨域“。<br>
+常见跨域场景如下所示：</p>
+<table>
+<thead>
+<tr>
+<th align="left">URL</th>
+<th align="center">场景</th>
+<th align="center">是否允许通信</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><a href="http://www.a.com/a.js">http://www.a.com/a.js</a><br><a href="http://www.a.com/b.js">http://www.a.com/b.js</a></td>
+<td align="center">同一域名下</td>
+<td align="center">允许</td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.a.com/lab/a.js">http://www.a.com/lab/a.js</a><br><a href="http://www.a.com/script/b.js">http://www.a.com/script/b.js</a></td>
+<td align="center">同一域名下不同文件夹</td>
+<td align="center">允许</td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.a.com">http://www.a.com</a>:8080/a.js<br><a href="http://www.a.com/b.js">http://www.a.com/b.js</a></td>
+<td align="center">同一域名，不同端口</td>
+<td align="center">不允许</td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.a.com/a.js">http://www.a.com/a.js</a><br><a href="https://www.a.com/b.js">https://www.a.com/b.js</a></td>
+<td align="center">同一域名，不同协议</td>
+<td align="center">不允许</td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.a.com/a.js">http://www.a.com/a.js</a><br>http://70.32.92.74/b.js</td>
+<td align="center">域名和域名对应ip</td>
+<td align="center">不允许</td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.a.com/a.js">http://www.a.com/a.js</a><br><a href="http://script.a.com//b.js">http://script.a.com//b.js</a></td>
+<td align="center">主域相同，子域不同</td>
+<td align="center">不允许</td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.a.com/a.js">http://www.a.com/a.js</a><br>http://a.com//b.js</td>
+<td align="center">同一域名，不同二级域名</td>
+<td align="center">不允许（cookie这种情况下也不允许访问）</td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.baidu.com/a.js">http://www.baidu.com/a.js</a><br><a href="http://www.a.com//b.js">http://www.a.com//b.js</a></td>
+<td align="center">不同域名</td>
+<td align="center">不允许</td>
+</tr>
+</tbody>
+</table>
+<p>特别说明两点：</p>
+<ol>
+<li>如果是协议和端口造成的跨域问题，那么“前台”是无能为力的。</li>
+<li>在跨域问题上，仅仅是通过“URL的首部”来识别，而不会根据域名对应的IP地址是否相同来判断。“URL的首部”可以理解为“协议, 域名和端口必须匹配”。</li>
+</ol>
+<p>这里你或许有个疑问：请求跨域了，那么请求到底发出去没有？</p>
+<ol>
+<li>跨域并不是请求发不出去，请求能发出去，服务端能收到请求并正常返回结果，只是结果被浏览器拦截了。</li>
+<li>你可能会疑问明明通过表单的方式可以发起跨域请求，为什么 Ajax 就不会?因为归根结底，跨域是为了阻止用户读取到另一个域名下的内容，Ajax 可以获取响应，浏览器认为这不安全，所以拦截了响应。</li>
+<li>但是表单并不会获取新的内容，所以可以发起跨域请求。同时也说明了跨域并不能完全阻止 CSRF，因为请求毕竟是发出去了。</li>
+</ol>
+<h3 id="php解决跨域问题的方法">PHP解决跨域问题的方法</h3>
+<p>跨域的严格一点来说就是只要协议，域名，端口有任何一个的不同，就被当作是跨域。</p>
+<p>比如，在实际项目中由于前后端分离当前端需要通过接口向后台发起请求，此时就会出现跨域问题，那么，这类问题需要如何解决呢？</p>
+<p><strong>其实php解决跨域问题很简单，只需加上下面的代码就可以了：</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">header(&#34;Access-Control-Allow-Origin:*&#34;);
+加上这行代码表示允许所有的域名访问，不过为了安全起见，在实际项目中往往会限定只允许固定的几个域名和方法发起的请求。
+</code></pre></div><p>1、允许单个域名访问</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">header(&#39;Access-Control-Allow-Origin:http://www.startphp.cn&#39;);
+header(&#39;Access-Control-Allow-Methods:POST&#39;);    //表示只允许POST请求
+header(&#39;Access-Control-Allow-Headers:x-requested-with, content-type&#39;); //请求头的限制
+</code></pre></div><p>2、不限制域名</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">header(&#39;Access-Control-Allow-Origin:*&#39;);
+header(&#39;Access-Control-Allow-Methods:POST&#39;);//表示只允许POST请求
+header(&#39;Access-Control-Allow-Headers:x-requested-with, content-type&#39;);
+</code></pre></div><p>3、允许多个域名访问<br>
+在实际项目中最好指定能跨域访问的域名，增加安全性。可以写在一个公共类里面，封装一个方法调用。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">// 设置能访问的域名
+static public $originarr = [
+   &#39;https://test1.com&#39;,
+   &#39;https://test2.com&#39;,
+];
+
+/**
+ *  公共方法调用
+ */
+static public function setheader()
+{
+   // 获取当前跨域域名
+   $origin = isset($_SERVER[&#39;HTTP_ORIGIN&#39;]) ? $_SERVER[&#39;HTTP_ORIGIN&#39;] : &#39;&#39;;
+   if (in_array($origin, self::$originarr)) {
+      // 允许 $originarr 数组内的 域名跨域访问
+      header(&#39;Access-Control-Allow-Origin:&#39; . $origin);
+      // 响应类型
+      header(&#39;Access-Control-Allow-Methods:POST,GET&#39;);
+      // 带 cookie 的跨域访问
+      header(&#39;Access-Control-Allow-Credentials: true&#39;);
+      // 响应头设置
+      header(&#39;Access-Control-Allow-Headers:x-requested-with,Content-Type,X-CSRF-Token&#39;);
+   }
+}
+</code></pre></div><h4 id="在php上如何实现">在php上如何实现</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">// 制定允许其他域名访问
+header(&#34;Access-Control-Allow-Origin:*&#34;);
+
+// 响应类型
+header(&#39;Access-Control-Allow-Methods:POST&#39;);
+
+// 响应头设置
+header(&#39;Access-Control-Allow-Headers:x-requested-with, content-type&#39;);
+
+//$callback = isset($_REQUEST[&#39;callback&#39;]) ? trim($_REQUEST[&#39;callback&#39;]) : &#39;&#39;; //jsonp回调参数，必需
+
+function getKey($key,$default=&#34;&#34;){
+    return trim(isset($_REQUEST[$key])?$_REQUEST[$key]:$default);
+
+}
+
+$id = getKey(&#34;id&#34;);
+$conn = mysqli_connect(&#34;localhost&#34;,&#34;root&#34;,&#34;&#34;,&#34;test&#34;) or die(&#34;连接失败&#34;);
+$conn-&gt;query(&#34;set names utf8&#34;);
+$sql = &#34;select * from data where &#34;.$id.&#34; is not null&#34;;
+
+$result = $conn-&gt;query($sql);
+
+$arr = [];
+while($row=$result-&gt;fetch_assoc()){
+    array_push($arr,json_encode($row));
+
+}
+
+$json = json_encode($arr);  //json 数据
+print_r($json);
+</code></pre></div><p>4、代理，这种经常用</p>
+<p>比如startphp.cn/index.html需要调用mano100.cn/server.php，我们可以这样做，写一个接口startphp.cn/server.php，由这个接口在后端去调用mano100.cn/server.php并拿到返回值，然后再返回给index.html，这就是一个代理的模式。相当于绕过了浏览器端，自然就不存在跨域问题。
+<br><br>
+5、Nginx反向代理</p>
+<p>使用nginx反向代理实现跨域，是最简单的跨域方式。只需要修改nginx的配置即可解决跨域问题，支持所有浏览器，支持session，不需要修改任何代码，并且不会影响服务器性能。</p>
+<p>实现思路：通过nginx配置一个代理服务器（域名与domain1相同，端口不同）做跳板机，反向代理访问domain2接口，并且可以顺便修改cookie中domain信息，方便当前域cookie写入，实现跨域登录。</p>
+<p>修改配置文件nginx.comf，如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-service" data-lang="service"><span style="color:#960050;background-color:#1e0010">//</span> <span style="color:#960050;background-color:#1e0010">proxy服务器</span>
+<span style="color:#960050;background-color:#1e0010">server</span> <span style="color:#960050;background-color:#1e0010">{</span>
+    <span style="color:#960050;background-color:#1e0010">listen</span>       <span style="color:#960050;background-color:#1e0010">81</span><span style="color:#75715e">;</span>
+    <span style="color:#960050;background-color:#1e0010">server_name</span>  <span style="color:#960050;background-color:#1e0010">www.domain1.com</span><span style="color:#75715e">;</span>
+    <span style="color:#960050;background-color:#1e0010">location</span> <span style="color:#960050;background-color:#1e0010">/</span> <span style="color:#960050;background-color:#1e0010">{</span>
+        <span style="color:#960050;background-color:#1e0010">proxy_pass</span>   <span style="color:#960050;background-color:#1e0010">http://www.domain2.com:8080</span><span style="color:#75715e">;  #反向代理</span>
+        <span style="color:#960050;background-color:#1e0010">proxy_cookie_domain</span> <span style="color:#960050;background-color:#1e0010">www.domain2.com</span> <span style="color:#960050;background-color:#1e0010">www.domain1.com</span><span style="color:#75715e">; #修改cookie里域名</span>
+        <span style="color:#960050;background-color:#1e0010">index</span>  <span style="color:#960050;background-color:#1e0010">index.html</span> <span style="color:#960050;background-color:#1e0010">index.htm</span><span style="color:#75715e">;</span>
+
+        <span style="color:#75715e"># 当用webpack-dev-server等中间件代理接口访问nignx时，此时无浏览器参与，故没有同源限制，下面的跨域配置可不启用</span>
+        <span style="color:#960050;background-color:#1e0010">add_header</span> <span style="color:#960050;background-color:#1e0010">Access-Control-Allow-Origin</span> <span style="color:#960050;background-color:#1e0010">http://www.domain1.com</span><span style="color:#75715e">;  #当前端只跨域不带cookie时，可为*</span>
+        <span style="color:#960050;background-color:#1e0010">add_header</span> <span style="color:#960050;background-color:#1e0010">Access-Control-Allow-Credentials</span> <span style="color:#960050;background-color:#1e0010">true</span><span style="color:#75715e">;</span>
+    <span style="color:#960050;background-color:#1e0010">}</span>
+<span style="color:#960050;background-color:#1e0010">}</span>
+</code></pre></div><p>配置修改好后，再重启nginx。</p>
+<p>index.html文件访问代理服务器</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-service" data-lang="service"><span style="color:#960050;background-color:#1e0010">//</span> <span style="color:#960050;background-color:#1e0010">index.html</span>
+<span style="color:#a6e22e">var xhr </span><span style="color:#f92672">=</span><span style="color:#e6db74"> new XMLHttpRequest();</span>
+<span style="color:#960050;background-color:#1e0010">//</span> <span style="color:#960050;background-color:#1e0010">前端开关：浏览器是否读写cookie</span>
+<span style="color:#a6e22e">xhr.withCredentials </span><span style="color:#f92672">=</span><span style="color:#e6db74"> true;</span>
+<span style="color:#960050;background-color:#1e0010">//</span> <span style="color:#960050;background-color:#1e0010">访问nginx中的代理服务器</span>
+<span style="color:#a6e22e">xhr.open(&#39;get&#39;, &#39;http://www.domain1.com:81/?user</span><span style="color:#f92672">=</span><span style="color:#e6db74">admin&#39;, true);</span>
+<span style="color:#960050;background-color:#1e0010">xhr.send()</span><span style="color:#75715e">;</span>
+</code></pre></div><p>server.js</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-service" data-lang="service"><span style="color:#960050;background-color:#1e0010">//</span> <span style="color:#960050;background-color:#1e0010">server.js</span>
+<span style="color:#a6e22e">var http </span><span style="color:#f92672">=</span><span style="color:#e6db74"> require(&#39;http&#39;);</span>
+<span style="color:#a6e22e">var server </span><span style="color:#f92672">=</span><span style="color:#e6db74"> http.createServer();</span>
+<span style="color:#a6e22e">var qs </span><span style="color:#f92672">=</span><span style="color:#e6db74"> require(&#39;querystring&#39;);</span>
+<span style="color:#960050;background-color:#1e0010">server.on(&#39;request&#39;,</span> <span style="color:#960050;background-color:#1e0010">function(req,</span> <span style="color:#960050;background-color:#1e0010">res)</span> <span style="color:#960050;background-color:#1e0010">{</span>
+    <span style="color:#a6e22e">var params </span><span style="color:#f92672">=</span><span style="color:#e6db74"> qs.parse(req.url.substring(2));</span>
+    <span style="color:#960050;background-color:#1e0010">//</span> <span style="color:#960050;background-color:#1e0010">向前台写cookie</span>
+    <span style="color:#960050;background-color:#1e0010">res.writeHead(200,</span> <span style="color:#960050;background-color:#1e0010">{</span>
+        <span style="color:#a6e22e">&#39;Set-Cookie&#39;: &#39;l</span><span style="color:#f92672">=</span><span style="color:#e6db74">a123456;Path=/;Domain=www.domain2.com;HttpOnly&#39;   // HttpOnly:脚本无法读取</span>
+    <span style="color:#960050;background-color:#1e0010">})</span><span style="color:#75715e">;</span>
+    <span style="color:#960050;background-color:#1e0010">res.write(JSON.stringify(params))</span><span style="color:#75715e">;</span>
+    <span style="color:#960050;background-color:#1e0010">res.end()</span><span style="color:#75715e">;</span>
+<span style="color:#960050;background-color:#1e0010">})</span><span style="color:#75715e">;</span>
+<span style="color:#960050;background-color:#1e0010">server.listen(&#39;8080&#39;)</span><span style="color:#75715e">;</span>
+<span style="color:#960050;background-color:#1e0010">console.log(&#39;Server</span> <span style="color:#960050;background-color:#1e0010">is</span> <span style="color:#960050;background-color:#1e0010">running</span> <span style="color:#960050;background-color:#1e0010">at</span> <span style="color:#960050;background-color:#1e0010">port</span> <span style="color:#960050;background-color:#1e0010">8080...&#39;)</span><span style="color:#75715e">;</span>
+</code></pre></div><p style='color:#B0C4DE;font-size: 5px'>来源  https://mp.weixin.qq.com/s/HW7bLy3MwDuzARadRTpEPw</p>
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>阿天 </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://h-zeus.github.io/posts/php-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/>https://h-zeus.github.io/posts/php-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+
+    <div class="post-tags">
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://h-zeus.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://h-zeus.github.io/posts/ping-%E5%91%BD%E4%BB%A4%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="prev" rel="prev" title="Ping 命令基本使用"><i class="iconfont icon-left"></i>&nbsp;Ping 命令基本使用</a>
+         
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+    <div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: 'e66088a4a2a13aaf85c8',
+        clientSecret: 'ec8158b5a1261b452497cb88b355017915d64b48',
+        repo: 'blog-comments',
+        owner: 'H-Zeus',
+        admin: ['H-Zeus'],
+        id: location.pathname.slice(0,30),
+        distractionFreeMode: true, 
+    });
+    gitalk.render('gitalk-container');
+</script>
+</article>
+             </div>
+         </main>
+        <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2018 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://h-zeus.github.io/">阿天</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span>
+          <span id="busuanzi_container_site_uv"> | uv <span id="busuanzi_value_site_uv"></span></span>
+          <span id="busuanzi_container_site_pv"> & pv <span id="busuanzi_value_site_pv"></span></span>
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+    </div>
+  </body>
+</html>
