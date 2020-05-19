@@ -5,12 +5,12 @@
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noodp"/>
-  <meta name="author" content="Zeus">
+  <meta name="author" content="阿天">
   
   
   
   <link rel="prev" href="https://h-zeus.github.io/posts/linux-expect-%E7%94%A8%E6%B3%95/" />
-  
+  <link rel="next" href="https://h-zeus.github.io/posts/php-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/" />
   <link rel="canonical" href="https://h-zeus.github.io/posts/ping-%E5%91%BD%E4%BB%A4%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -46,18 +46,18 @@
     "articleSection" : "posts",
     "name" : "Ping 命令基本使用",
     "headline" : "Ping 命令基本使用",
-    "description" : "此文章为 Windows 系统下的 cmd，在 Linux\/Mac 上可能存在差异 一、ping 基本使用详解 在网络中ping是一个十分强大的TCP\/IP工具。它的作用主要为：\n1.用来检测网络的连通情况和分析网络速度\n2.根据域名得到服务器IP\n3.根据ping返回的TTL值来判断对方所使用的操作系统及数据包经过路由器数量\n我们通常会用它来直接ping ip地址，来测试网络的连通情况 类如这种，直接ping ip地址或网关，ping通会显示出以上数据，有朋友可能会问，bytes=32；time\x26lt;1ms；TTL=128 这些是什么意思。\nbytes：数据包大小，也就是字节 time：响应时间，这个时间越小，说明你连接这个地址速度越快 ttl：Time To Live,表示DNS记录在DNS服务器上存在的时间，它是IP协议包的一个值，告诉路由器该数据包何时需要被丢弃。可以通过Ping返回的TTL值大小，粗略地判断目标系统类型是Windows系列还是UNIX\/Linux系列  默认情况下各系统 TTL 值\nLinux =\x26gt; 64或255\nWindowsNT\/2000\/XP =\x26gt; 128\nWindows98 =\x26gt; 32\nUNIX =\x26gt; 255\n因此一般TTL值：\n100~130ms之间，Windows系统\n240~255ms之间，UNIX\/Linux系统\n ping命令除了直接ping网络的ip地址，验证网络畅通和速度之外，它还有这些用法 二、ping -t 的使用 不间断地 Ping 指定计算机，直到管理员中断。\n这就说明电脑连接路由器是通的，网络效果很好。下面按按住键盘的Ctrl\x2bc终止它继续ping下去，就会停止了，会总结出运行的数据包有多少，通断的有多少了。\n三、ping -a 的使用 ping -a解析计算机名与NetBios名。就是可以通过ping它的ip地址，可以解析出主机名。 四、ping -n 的使用 在默认情况下，一般都只发送四个数据包，通过这个命令可以自己定义发送的个数，对衡量网络速度很有帮助，比如我想测试发送10个数据包的返回的平均时间为多少，最快时间为多少，最慢时间为多少就可以通过以下获知：\n从以上我就可以知道在给47.93.187.142发送10个数据包的过程当中，返回了10个，没有丢失，这10个数据包当中返回速度最快为32ms，最慢为55ms，平均速度为37ms。说明我的网络良好。\n如果对于一些不好的网络，比如监控系统中非常卡顿，这样测试，返回的结果可能会显示出丢失出一部分，如果丢失的比较多的话，那么就说明网络不好，可以很直观的判断出网络的情况。\n五、ping -l size 的使用 ping -l size：发送size指定大小的到目标主机的数据包。\n在默认的情况下Windows的ping发送的数据包大小为32byt，最大能发送65500byt。当一次发送的数据包大于或等于65500byt时，将可能导致接收方计算机宕机。所以微软限制了这一数值；这个参数配合其它参数以后危害非常强大，比如攻击者可以结合-t参数实施DOS攻击。（所以它具有危险性，不要轻易向别人计算机使用）。\n例如：ping -l 65500 -t 211.",
+    "description" : "此文章为 Windows 系统下的 cmd，在 Linux\/Mac OS 上可能存在差异 一、ping 基本使用详解 在网络中ping是一个十分强大的TCP\/IP工具。它的作用主要为：\n1.用来检测网络的连通情况和分析网络速度\n2.根据域名得到服务器IP\n3.根据ping返回的TTL值来判断对方所使用的操作系统及数据包经过路由器数量\n我们通常会用它来直接ping ip地址，来测试网络的连通情况 类如这种，直接ping ip地址或网关，ping通会显示出以上数据，有朋友可能会问，bytes=32；time\x26lt;1ms；TTL=128 这些是什么意思。\nbytes：数据包大小，也就是字节 time：响应时间，这个时间越小，说明你连接这个地址速度越快 ttl：Time To Live,表示DNS记录在DNS服务器上存在的时间，它是IP协议包的一个值，告诉路由器该数据包何时需要被丢弃。可以通过Ping返回的TTL值大小，粗略地判断目标系统类型是Windows系列还是UNIX\/Linux系列  默认情况下各系统 TTL 值\nLinux =\x26gt; 64或255\nWindowsNT\/2000\/XP =\x26gt; 128\nWindows98 =\x26gt; 32\nUNIX =\x26gt; 255\n因此一般TTL值：\n100~130ms之间，Windows系统\n240~255ms之间，UNIX\/Linux系统\n ping命令除了直接ping网络的ip地址，验证网络畅通和速度之外，它还有这些用法 二、ping -t 的使用 不间断地 Ping 指定计算机，直到管理员中断。\n这就说明电脑连接路由器是通的，网络效果很好。下面按按住键盘的Ctrl\x2bc终止它继续ping下去，就会停止了，会总结出运行的数据包有多少，通断的有多少了。\n三、ping -a 的使用 ping -a解析计算机名与NetBios名。就是可以通过ping它的ip地址，可以解析出主机名。 四、ping -n 的使用 在默认情况下，一般都只发送四个数据包，通过这个命令可以自己定义发送的个数，对衡量网络速度很有帮助，比如我想测试发送10个数据包的返回的平均时间为多少，最快时间为多少，最慢时间为多少就可以通过以下获知：\n从以上我就可以知道在给47.93.187.142发送10个数据包的过程当中，返回了10个，没有丢失，这10个数据包当中返回速度最快为32ms，最慢为55ms，平均速度为37ms。说明我的网络良好。\n如果对于一些不好的网络，比如监控系统中非常卡顿，这样测试，返回的结果可能会显示出丢失出一部分，如果丢失的比较多的话，那么就说明网络不好，可以很直观的判断出网络的情况。\n五、ping -l size 的使用 ping -l size：发送size指定大小的到目标主机的数据包。\n在默认的情况下Windows的ping发送的数据包大小为32byt，最大能发送65500byt。当一次发送的数据包大于或等于65500byt时，将可能导致接收方计算机宕机。所以微软限制了这一数值；这个参数配合其它参数以后危害非常强大，比如攻击者可以结合-t参数实施DOS攻击。（所以它具有危险性，不要轻易向别人计算机使用）。",
     "inLanguage" : "en-us",
-    "author" : "Zeus",
-    "creator" : "Zeus",
-    "publisher": "Zeus",
-    "accountablePerson" : "Zeus",
-    "copyrightHolder" : "Zeus",
+    "author" : "阿天",
+    "creator" : "阿天",
+    "publisher": "阿天",
+    "accountablePerson" : "阿天",
+    "copyrightHolder" : "阿天",
     "copyrightYear" : "2020",
     "datePublished": "2020-05-12 10:45:53 \x2b0800 CST",
     "dateModified" : "2020-05-12 10:45:53 \x2b0800 CST",
     "url" : "https:\/\/h-zeus.github.io\/posts\/ping-%E5%91%BD%E4%BB%A4%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8\/",
-    "wordCount" : "116",
+    "wordCount" : "117",
     "keywords" : [  "My Site"]
 }
 </script>
@@ -114,7 +114,7 @@
     <header class="post-header">
         <h1 class="post-title" itemprop="name headline">Ping 命令基本使用</h1>
         <div class="post-meta">
-                Written by <a itemprop="name" href="https://h-zeus.github.io/" rel="author">Zeus</a> with ♥ 
+                Written by <a itemprop="name" href="https://h-zeus.github.io/" rel="author">阿天</a> with ♥ 
                 <span class="post-time">
                 on <time datetime=2020-05-12 itemprop="datePublished">May 12, 2020</time>
                 </span>
@@ -144,7 +144,7 @@
           
           
 
-          <h4 id="此文章为-windows-系统下的-cmd在-linuxmac-上可能存在差异">此文章为 Windows 系统下的 cmd，在 Linux/Mac 上可能存在差异</h4>
+          <h4 id="此文章为-windows-系统下的-cmd在-linuxmac-os-上可能存在差异">此文章为 Windows 系统下的 cmd，在 Linux/Mac OS 上可能存在差异</h4>
 <h3 id="一ping-基本使用详解">一、ping 基本使用详解</h3>
 <p>在网络中ping是一个十分强大的TCP/IP工具。它的作用主要为：<br>
 1.用来检测网络的连通情况和分析网络速度<br>
@@ -211,7 +211,7 @@ IP地址段修改成你要检查的IP地址段。
              
             <p class="copyright-item">
                 <span>Author:</span>
-                <span>Zeus </span>
+                <span>阿天 </span>
                 </p>
             
            
@@ -241,6 +241,8 @@ IP地址段修改成你要检查的IP地址段。
         
         <a href="https://h-zeus.github.io/posts/linux-expect-%E7%94%A8%E6%B3%95/" class="prev" rel="prev" title="Linux Expect 用法"><i class="iconfont icon-left"></i>&nbsp;Linux Expect 用法</a>
          
+        
+        <a href="https://h-zeus.github.io/posts/php-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/" class="next" rel="next" title="PHP 跨域问题">PHP 跨域问题&nbsp;<i class="iconfont icon-right"></i></a>
         
     </div>
 
@@ -277,7 +279,7 @@ IP地址段修改成你要检查的IP地址段。
     	 <i class="iconfont icon-love"></i> 
          </span>
          
-            <span class="author" itemprop="copyrightHolder"><a href="https://h-zeus.github.io/">Zeus</a> | </span> 
+            <span class="author" itemprop="copyrightHolder"><a href="https://h-zeus.github.io/">阿天</a> | </span> 
          
 
          

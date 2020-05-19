@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noodp"/>
-  <meta name="author" content="Zeus">
+  <meta name="author" content="阿天">
   
   
   
@@ -48,11 +48,11 @@
     "headline" : "Linux Expect 用法",
     "description" : "起因 有两台Linux主机 需要从 A主机 ssh到B主机，然后在B主机上执行命令\n起初只能像 ssh admin@10.13.14.230 \x26quot;ls\x26quot; 这样手动执行 每次都要输入密码\n如何全程自动化呢？ 这就要用到今天这篇文章介绍的 expect 了\nps: 会 Python 请绕道~~\nExpect 用来实现自动交互功能的工具\n首行 #!\/usr\/bin\/expect -f 告诉操作系统脚本里的代码使用那一个shell来执行。 这里的expect其实和linux下的bash、windows下的cmd是一类东西。 命令 1 set timeout 30 # 设置超时时间 单位:秒 [timeout -1 为永不超时] set 变量名 \x26#34;值\x26#34; # 设置变量 [$变量名 使用] spawn 启动新的进程 spawn ssh username@192.168.1.1 # 传递交互指令 spawn 命令用来启动新的进程，spawn后的send和expect命令都是和使用spawn打开的进程进行交互。 expect 从进程接收字符串 expect \x26#34;password:\x26#34; # 判断上次输出结果里是否包含“password:”的字符串 有则立即返回，否则就等待一段时间后返回，等待时长就是前面设置的30秒 expect 命令和send命令相反，expect通常用来等待一个进程的反馈，我们根据进程的反馈，再发送对应的交互命令。 send 用于向进程发送字符串 send \x26#34;yes\\r\x26#34; # 执行交互动作 [\\r 换行] send 命令接收一个字符串参数，并将该参数发送到进程。 exp_continue # 继续向下执行匹配 interact # 执行完成后保持交互状态，把控制权交给控制台 [如果没有ssh后就会退出 而不是留在远程终端上] interact 命令主要用于退出自动化，进入人工交互。 $argv 参数数组 # expect脚本可以接受从bash传递过来的参数.",
     "inLanguage" : "en-us",
-    "author" : "Zeus",
-    "creator" : "Zeus",
-    "publisher": "Zeus",
-    "accountablePerson" : "Zeus",
-    "copyrightHolder" : "Zeus",
+    "author" : "阿天",
+    "creator" : "阿天",
+    "publisher": "阿天",
+    "accountablePerson" : "阿天",
+    "copyrightHolder" : "阿天",
     "copyrightYear" : "2020",
     "datePublished": "2020-04-29 15:56:16 \x2b0800 CST",
     "dateModified" : "2020-04-29 15:56:16 \x2b0800 CST",
@@ -114,7 +114,7 @@
     <header class="post-header">
         <h1 class="post-title" itemprop="name headline">Linux Expect 用法</h1>
         <div class="post-meta">
-                Written by <a itemprop="name" href="https://h-zeus.github.io/" rel="author">Zeus</a> with ♥ 
+                Written by <a itemprop="name" href="https://h-zeus.github.io/" rel="author">阿天</a> with ♥ 
                 <span class="post-time">
                 on <time datetime=2020-04-29 itemprop="datePublished">April 29, 2020</time>
                 </span>
@@ -246,7 +246,7 @@ expect <span style="color:#f92672">{</span>
              
             <p class="copyright-item">
                 <span>Author:</span>
-                <span>Zeus </span>
+                <span>阿天 </span>
                 </p>
             
            
@@ -314,7 +314,7 @@ expect <span style="color:#f92672">{</span>
     	 <i class="iconfont icon-love"></i> 
          </span>
          
-            <span class="author" itemprop="copyrightHolder"><a href="https://h-zeus.github.io/">Zeus</a> | </span> 
+            <span class="author" itemprop="copyrightHolder"><a href="https://h-zeus.github.io/">阿天</a> | </span> 
          
 
          

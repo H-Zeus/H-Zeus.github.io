@@ -6,10 +6,19 @@
     <description>Recent content in Categories on My Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 12 May 2020 10:45:53 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 19 May 2020 10:30:34 +0800</lastBuildDate>
     
 	<atom:link href="https://h-zeus.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>PHP</title>
+      <link>https://h-zeus.github.io/categories/php/</link>
+      <pubDate>Tue, 19 May 2020 10:30:34 +0800</pubDate>
+      
+      <guid>https://h-zeus.github.io/categories/php/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Linux</title>
@@ -17,15 +26,6 @@
       <pubDate>Tue, 12 May 2020 10:45:53 +0800</pubDate>
       
       <guid>https://h-zeus.github.io/categories/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>PHP</title>
-      <link>https://h-zeus.github.io/categories/php/</link>
-      <pubDate>Thu, 23 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://h-zeus.github.io/categories/php/</guid>
       <description></description>
     </item>
     

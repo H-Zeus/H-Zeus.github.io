@@ -6,10 +6,28 @@
     <description>Recent content in PHP on My Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 23 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 19 May 2020 10:30:34 +0800</lastBuildDate>
     
 	<atom:link href="https://h-zeus.github.io/categories/php/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>PHP 跨域问题</title>
+      <link>https://h-zeus.github.io/posts/php-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Tue, 19 May 2020 10:30:34 +0800</pubDate>
+      
+      <guid>https://h-zeus.github.io/posts/php-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</guid>
+      <description>什么是跨域？ 跨域，指的是从一个域名去请求另一个域名的资源。即跨域名请求！ 跨域时，浏览器不能执行其他域名网站的脚本，是由浏览器的同源策略造成的，是浏览器施加的安全限制。
+什么是同源策略？ 同源策略是一种约定，它是浏览器最核心也最基本的安全功能，如果缺少了同源策略，浏览器很容易受到 XSS、CSRF 等攻击。所谓同源是指”协议+域名+端口“三者相同，即便两个不同的域名指向同一个ip地址，也非同源。
+一个域名地址的组成： http://www.abc.com:8080/scripts/jquery.js http:// www . abc.com : 8080 / scripts/jquery.js 协议	子域名 主域名 端口号 请求资源地址 同源策略限制的内容有：
+ Cookie、LocalStorage、IndexedDB 等存储性内容 DOM 节点 AJAX 请求发送后，结果被浏览器拦截了  允许跨域加载资源的三个标签：
+ &amp;lt;img src=&amp;quot;/picture.jpg&amp;quot;&amp;gt; &amp;lt;link href=&amp;quot;/xxx&amp;quot;&amp;gt; &amp;lt;script src=&amp;quot;scripts/jquery.js&amp;quot;&amp;gt;  常见的跨域场景 当协议、子域名、主域名、端口号中任意一个不相同时，都算作不同域。不同域之间相互请求资源，就算作”跨域“。
+常见跨域场景如下所示：
+   URL 场景 是否允许通信     http://www.a.com/a.js
+http://www.a.com/b.js 同一域名下 允许   http://www.a.com/lab/a.js
+http://www.a.com/script/b.js 同一域名下不同文件夹 允许   http://www.a.com:8080/a.js
+http://www.a.com/b.js 同一域名，不同端口 不允许   http://www.</description>
+    </item>
     
     <item>
       <title>PHP垃圾回收机制</title>

@@ -6,10 +6,28 @@
     <description>Recent content in Posts on My Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 12 May 2020 10:45:53 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 19 May 2020 10:30:34 +0800</lastBuildDate>
     
 	<atom:link href="https://h-zeus.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>PHP 跨域问题</title>
+      <link>https://h-zeus.github.io/posts/php-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Tue, 19 May 2020 10:30:34 +0800</pubDate>
+      
+      <guid>https://h-zeus.github.io/posts/php-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</guid>
+      <description>什么是跨域？ 跨域，指的是从一个域名去请求另一个域名的资源。即跨域名请求！ 跨域时，浏览器不能执行其他域名网站的脚本，是由浏览器的同源策略造成的，是浏览器施加的安全限制。
+什么是同源策略？ 同源策略是一种约定，它是浏览器最核心也最基本的安全功能，如果缺少了同源策略，浏览器很容易受到 XSS、CSRF 等攻击。所谓同源是指”协议+域名+端口“三者相同，即便两个不同的域名指向同一个ip地址，也非同源。
+一个域名地址的组成： http://www.abc.com:8080/scripts/jquery.js http:// www . abc.com : 8080 / scripts/jquery.js 协议	子域名 主域名 端口号 请求资源地址 同源策略限制的内容有：
+ Cookie、LocalStorage、IndexedDB 等存储性内容 DOM 节点 AJAX 请求发送后，结果被浏览器拦截了  允许跨域加载资源的三个标签：
+ &amp;lt;img src=&amp;quot;/picture.jpg&amp;quot;&amp;gt; &amp;lt;link href=&amp;quot;/xxx&amp;quot;&amp;gt; &amp;lt;script src=&amp;quot;scripts/jquery.js&amp;quot;&amp;gt;  常见的跨域场景 当协议、子域名、主域名、端口号中任意一个不相同时，都算作不同域。不同域之间相互请求资源，就算作”跨域“。
+常见跨域场景如下所示：
+   URL 场景 是否允许通信     http://www.a.com/a.js
+http://www.a.com/b.js 同一域名下 允许   http://www.a.com/lab/a.js
+http://www.a.com/script/b.js 同一域名下不同文件夹 允许   http://www.a.com:8080/a.js
+http://www.a.com/b.js 同一域名，不同端口 不允许   http://www.</description>
+    </item>
     
     <item>
       <title>Ping 命令基本使用</title>
@@ -17,7 +35,7 @@
       <pubDate>Tue, 12 May 2020 10:45:53 +0800</pubDate>
       
       <guid>https://h-zeus.github.io/posts/ping-%E5%91%BD%E4%BB%A4%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</guid>
-      <description>此文章为 Windows 系统下的 cmd，在 Linux/Mac 上可能存在差异 一、ping 基本使用详解 在网络中ping是一个十分强大的TCP/IP工具。它的作用主要为：
+      <description>此文章为 Windows 系统下的 cmd，在 Linux/Mac OS 上可能存在差异 一、ping 基本使用详解 在网络中ping是一个十分强大的TCP/IP工具。它的作用主要为：
 1.用来检测网络的连通情况和分析网络速度
 2.根据域名得到服务器IP
 3.根据ping返回的TTL值来判断对方所使用的操作系统及数据包经过路由器数量
@@ -36,8 +54,7 @@ UNIX =&amp;gt; 255
 从以上我就可以知道在给47.93.187.142发送10个数据包的过程当中，返回了10个，没有丢失，这10个数据包当中返回速度最快为32ms，最慢为55ms，平均速度为37ms。说明我的网络良好。
 如果对于一些不好的网络，比如监控系统中非常卡顿，这样测试，返回的结果可能会显示出丢失出一部分，如果丢失的比较多的话，那么就说明网络不好，可以很直观的判断出网络的情况。
 五、ping -l size 的使用 ping -l size：发送size指定大小的到目标主机的数据包。
-在默认的情况下Windows的ping发送的数据包大小为32byt，最大能发送65500byt。当一次发送的数据包大于或等于65500byt时，将可能导致接收方计算机宕机。所以微软限制了这一数值；这个参数配合其它参数以后危害非常强大，比如攻击者可以结合-t参数实施DOS攻击。（所以它具有危险性，不要轻易向别人计算机使用）。
-例如：ping -l 65500 -t 211.</description>
+在默认的情况下Windows的ping发送的数据包大小为32byt，最大能发送65500byt。当一次发送的数据包大于或等于65500byt时，将可能导致接收方计算机宕机。所以微软限制了这一数值；这个参数配合其它参数以后危害非常强大，比如攻击者可以结合-t参数实施DOS攻击。（所以它具有危险性，不要轻易向别人计算机使用）。</description>
     </item>
     
     <item>
